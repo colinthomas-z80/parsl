@@ -29,7 +29,10 @@ class TaskVineStaging(Staging, RepresentationMixin):
         return None
 
     def stage_out(self, dm, executor: str, file: File, app_fu: Future) -> Optional[Future]:
+        possible_future = None
         if file.scheme in ["taskvinetemp", "https", "http"]:
             file.local_path = file.url.split('/')[-1]
+            possible_future = Future()
+            possible_future.set_result(None)
         logger.debug("Task vine staging provider stage out for {}".format(repr(file)))
-        return None
+        return possible_future
